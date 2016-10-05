@@ -95,6 +95,7 @@
             <groupId>net.sourceforge.parallelcolt</groupId>
             <artifactId>parallelcolt</artifactId>
             <version>0.10.1</version>
+            <scope>provided</scope>
         </dependency>
   	<dependency>
   		<groupId>junit</groupId>
