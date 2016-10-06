@@ -1,0 +1,110 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.github.rwl</groupId>
+  <artifactId>jpower</artifactId>
+  <version>0.3.2-SNAPSHOT</version>
+  <name>JPOWER</name>
+  <description>Java package for solving electrical power flow and optimal power flow problems.</description>
+  <url>http://github.com/rwl/JPOWER</url>
+
+  <licenses>
+    <license>
+      <name>Apache License Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <scm>
+    <url>git@github.com:rwl/JPOWER.git</url>
+    <connection>scm:git:git@github.com:rwl/JPOWER.git</connection>
+    <developerConnection>scm:git:git@github.com:rwl/JPOWER.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
+
+  <developers>
+    <developer>
+      <id>rwl</id>
+      <name>Richard Lincoln</name>
+      <email>r.w.lincoln@gmail.com</email>
+    </developer>
+  </developers>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!-- github server corresponds to entry in ~/.m2/settings.xml -->
+    <github.global.server>github</github.global.server>
+  </properties>
+  
+    <!-- To deploy to a maven repository in Github -->
+    <distributionManagement>
+            <repository>
+                    <id>internal.repo</id>
+                    <name>Temporary Staging Repository</name>
+                    <url>file:///${user.dir}/target/mvn-repo</url>
+            </repository>
+    </distributionManagement>
+    <!-- To deploy to a maven repository in Github -->
+    <build>
+        <plugins>
+            <!--
+            <plugin>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.8.2</version>
+                <configuration>
+                    <altDeploymentRepository>internal.repo::default::file:///${user.dir}/target/mvn-repo</altDeploymentRepository>
+                </configuration>
+            </plugin>
+            -->
+            <plugin>
+                <groupId>com.github.github</groupId>
+                <artifactId>site-maven-plugin</artifactId>
+                <version>0.10</version>
+                <configuration>
+                        <message>Maven artifacts for ${project.version}</message>  <!-- git commit message -->
+                        <noJekyll>true</noJekyll>                                  <!-- disable webpage processing -->
+                        <outputDirectory>${user.dir}/target/mvn-repo</outputDirectory> <!-- matches distribution management repository url above -->
+                        <branch>refs/heads/mvn-repo</branch>                       <!-- remote branch name -->
+                        <includes><include>**/*</include></includes>
+                        <repositoryName>JPOWER</repositoryName>      <!-- github repo name -->
+                        <repositoryOwner>OS4ES</repositoryOwner>    <!-- github username  -->
+                </configuration>
+                <executions>
+                  <!-- run site-maven-plugin's 'site' target as part of the build's normal 'deploy' phase -->
+                  <execution>
+                        <goals>
+                          <goal>site</goal>
+                        </goals>
+                        <phase>deploy</phase>
+                  </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!-- To link to ParallelColt maven repo at Github -->
+    <repositories>
+        <repository>
+            <id>ParallelColt-mvn-repo</id>
+            <url>https://raw.github.com/OS4ES/ParallelColt/mvn-repo/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
+
+  <dependencies>
+        <dependency>
+            <groupId>com.github.rwl</groupId>          
+            <artifactId>parallelcolt</artifactId>
+            <version>0.11.5-SNAPSHOT</version>
+        </dependency>
+  	<dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.2</version>
+            <scope>test</scope>
+  	</dependency>
+  </dependencies>
+</project>
